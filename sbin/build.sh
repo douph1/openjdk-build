@@ -527,6 +527,10 @@ removingUnnecessaryFiles() {
 
   stepIntoTheWorkingDirectory
 
+  echo "DBG1"
+  ls -l@ build/*/images/*
+  echo "DBG2"
+
   cd build/*/images || return
 
   echo "Currently at '${PWD}'"
@@ -535,12 +539,16 @@ removingUnnecessaryFiles() {
   echo "moving ${jdkPath} to ${jdkTargetPath}"
   rm -rf "${jdkTargetPath}" || true
   mv "${jdkPath}" "${jdkTargetPath}"
+  ls -l@ "${jdkTargetPath}"
+  echo "DBG3"
 
   if [ -d "$(ls -d ${BUILD_CONFIG[JRE_PATH]})" ]
   then
     echo "moving $(ls -d ${BUILD_CONFIG[JRE_PATH]}) to ${jreTargetPath}"
     rm -rf "${jreTargetPath}" || true
     mv "$(ls -d ${BUILD_CONFIG[JRE_PATH]})" "${jreTargetPath}"
+    ls -l@ "${jreTargetPath}"
+    echo "DBG4"
 
     case "${BUILD_CONFIG[OS_KERNEL_NAME]}" in
       "darwin") dirToRemove="${jreTargetPath}/Contents/Home" ;;
@@ -558,6 +566,9 @@ removingUnnecessaryFiles() {
     mv "${testImagePath}" "${testImageTargetPath}"
   fi
 
+  ls -l@ "${jreTargetPath}"
+  echo "DBG5"
+
   # Debug image - check if the config is set and directory exists
   local debugImagePath="${BUILD_CONFIG[DEBUG_IMAGE_PATH]}"
   if [ ! -z "${debugImagePath}" ] && [ -d "${debugImagePath}" ]
@@ -567,6 +578,9 @@ removingUnnecessaryFiles() {
     mv "${debugImagePath}" "${debugImageTargetPath}"
   fi
 
+  ls -l@ "${jreTargetPath}"
+  echo "DBG6"
+
   # Remove files we don't need
   case "${BUILD_CONFIG[OS_KERNEL_NAME]}" in
     "darwin") dirToRemove="${jdkTargetPath}/Contents/Home" ;;
@@ -574,9 +588,15 @@ removingUnnecessaryFiles() {
   esac
   rm -rf "${dirToRemove}"/demo || true
 
+  ls -l@ "${jreTargetPath}"
+  echo "DBG6"
+
   # .diz files may be present on any platform
   # Note that on AIX, find does not support the '-delete' option.
   find "${jdkTargetPath}" "${jreTargetPath}" -type f -name "*.diz" | xargs rm -f || true
+
+  ls -l@ "${jreTargetPath}"
+  echo "DBG7"
 
   case "${BUILD_CONFIG[OS_KERNEL_NAME]}" in
     *cygwin*)
@@ -593,6 +613,9 @@ removingUnnecessaryFiles() {
       find "${jdkTargetPath}" "${jreTargetPath}" -type f -name "*.debuginfo" | xargs rm -f || true
       ;;
   esac
+
+  ls -l@ "${jreTargetPath}"
+  echo "DBG8"
 
   echo "Finished removing unnecessary files from ${jdkTargetPath}"
 }
