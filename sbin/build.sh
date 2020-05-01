@@ -730,6 +730,12 @@ createOpenJDKTarArchive()
 
   if [ -d "${jreTargetPath}" ]; then
     local jreName=$(echo "${BUILD_CONFIG[TARGET_FILE_NAME]}" | sed 's/-jdk/-jre/')
+    # codesign jre Bundle
+    if [ ! -z "${BUILD_CONFIG[MACOSX_CODESIGN_IDENTITY]}" ]; then
+      echo "Codesigning JRE Bundle"
+      codesign --entitlements "${jreTargetPath}/Contents/Info.plist" --options runtime --timestamp --sign "${BUILD_CONFIG[MACOSX_CODESIGN_IDENTITY]}" "${jreTargetPath}" 
+      echo "Codesign JRE rc = $?"
+    fi
     createArchive "${jreTargetPath}" "${jreName}"
   fi
   if [ -d "${testImageTargetPath}" ]; then
@@ -741,6 +747,12 @@ createOpenJDKTarArchive()
     echo "OpenJDK debug image path will be ${debugImageTargetPath}."
     local debugImageName=$(echo "${BUILD_CONFIG[TARGET_FILE_NAME]//-jdk/-debugimage}")
     createArchive "${debugImageTargetPath}" "${debugImageName}"
+  fi
+  # codesign jdk Bundle
+  if [ ! -z "${BUILD_CONFIG[MACOSX_CODESIGN_IDENTITY]}" ]; then
+    echo "Codesigning JDK Bundle"
+    codesign --entitlements "${jdkTargetPath}/Contents/Info.plist" --options runtime --timestamp --sign "${BUILD_CONFIG[MACOSX_CODESIGN_IDENTITY]}" "${jdkTargetPath}"
+    echo "Codesign JDK rc = $?"
   fi
   createArchive "${jdkTargetPath}" "${BUILD_CONFIG[TARGET_FILE_NAME]}"
 }
