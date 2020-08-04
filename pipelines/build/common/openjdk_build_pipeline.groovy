@@ -174,7 +174,7 @@ class Build {
 						def jobName = determineTestJobName(testType)
 						def remote = true
                  				if (remote) {
-							def handle = triggerRemoteJob remoteJenkinsName: 'hyc-runtimes', job: jobName, parameters: "SDK_RESOURCE=customized, CUSTOMIZED_SDK_URL=http://adoptjenkinsci1.fyre.ibm.com:8080/job/build-scripts/job/jobs/job/jdk11u/job/jdk11u-linux-x64-openj9/lastSuccessfulBuild/artifact/workspace/target/OpenJDK11U-jdk_x64_linux_openj9_2020-08-02-23-30.tar.gz, RELEASE_TAG=${buildConfig.SCM_REF}, JDK_REPO=${jdkRepo}, JDK_BRANCH=${jdkBranch}")
+							def handle = triggerRemoteJob remoteJenkinsName: 'hyc-runtimes', job: jobName, parameters: "SDK_RESOURCE=customized, CUSTOMIZED_SDK_URL=http://adoptjenkinsci1.fyre.ibm.com:8080/job/build-scripts/job/jobs/job/jdk11u/job/jdk11u-linux-x64-openj9/lastSuccessfulBuild/artifact/workspace/target/OpenJDK11U-jdk_x64_linux_openj9_2020-08-02-23-30.tar.gz, RELEASE_TAG=${buildConfig.SCM_REF}, JDK_REPO=${jdkRepo}, JDK_BRANCH=${jdkBranch}"
 
 							def status = handle.getBuildStatus()
 							def buildUrl = handle.getBuildUrl()
