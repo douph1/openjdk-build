@@ -175,6 +175,7 @@ class Build {
 						def remote = true
                  				if (remote) {
 try {
+context.node(buildConfig.NODE_LABEL) {
 							def handle = context.triggerRemoteJob(remoteJenkinsName: "hyc-runtimes", job: jobName, parameters: "SDK_RESOURCE=customized\nCUSTOMIZED_SDK_URL=http://adoptjenkinsci1.fyre.ibm.com:8080/job/build-scripts/job/jobs/job/jdk11u/job/jdk11u-linux-x64-openj9/lastSuccessfulBuild/artifact/workspace/target/OpenJDK11U-jdk_x64_linux_openj9_2020-08-02-23-30.tar.gz\nRELEASE_TAG=${buildConfig.SCM_REF}\nJDK_REPO=${jdkRepo}\nJDK_BRANCH=${jdkBranch}")
 
 							def status = handle.getBuildStatus()
@@ -182,6 +183,7 @@ try {
 							echo buildUrl.toString() + " finished with " + status.toString()
 							def results = handle.readJsonFileFromBuildArchive('build-results.json')
 							echo results.urlToTestResults
+}
 } catch(Exception ex) {
     context.println "triggerRemoteJob failed: ${ex.getLocalizedMessage()}"
 }
