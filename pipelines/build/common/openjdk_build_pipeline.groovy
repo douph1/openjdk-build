@@ -180,9 +180,9 @@ context.node(buildConfig.NODE_LABEL) {
 
 							def status = handle.getBuildStatus()
 							def buildUrl = handle.getBuildUrl()
-							echo buildUrl.toString() + " finished with " + status.toString()
+							context.println buildUrl.toString() + " finished with " + status.toString()
 							def results = handle.readJsonFileFromBuildArchive('build-results.json')
-							echo results.urlToTestResults
+							context.println results.urlToTestResults
 }
 } catch(Exception ex) {
     context.println "triggerRemoteJob failed: ${ex.getLocalizedMessage()}"
