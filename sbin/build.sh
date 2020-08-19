@@ -282,10 +282,10 @@ configureDebugParameters() {
   addConfigureArg "--with-debug-level=" "release"
 
   if [ "${BUILD_CONFIG[OPENJDK_CORE_VERSION]}" == "${JDK8_CORE_VERSION}" ]; then
-    addConfigureArg "--disable-zip-debug-info" ""
-    if [[ "${BUILD_CONFIG[BUILD_VARIANT]}" != "${BUILD_VARIANT_OPENJ9}" ]]; then
-      addConfigureArg "--disable-debug-symbols" ""
-    fi
+    #addConfigureArg "--disable-zip-debug-info" ""
+  #  if [[ "${BUILD_CONFIG[BUILD_VARIANT]}" != "${BUILD_VARIANT_OPENJ9}" ]]; then
+   #   addConfigureArg "--disable-debug-symbols" ""
+    #fi
   else
     if [[ "${BUILD_CONFIG[BUILD_VARIANT]}" != "${BUILD_VARIANT_OPENJ9}" ]]; then
       addConfigureArg "--with-native-debug-symbols=" "none"
