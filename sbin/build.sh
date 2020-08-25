@@ -731,23 +731,23 @@ echo "1111"
       	    git fetch --tags "${BUILD_CONFIG[WORKSPACE_DIR]}/${BUILD_CONFIG[WORKING_DIR]}/${BUILD_CONFIG[OPENJDK_SOURCE_DIR]}"
 	   echo "2222"
       revList=$(git rev-list --tags --topo-order --max-count=$GIT_TAGS_TO_SEARCH)
-      echo "3333"
+      echo "3333:$revList:"
       if [[ "${BUILD_CONFIG[OPENJDK_CORE_VERSION]}" == "${JDKHEAD_VERSION}" ]]; then
         # For the development tree jdk/jdk, there might be two major versions in development
         # in parallel. One in stabilization mode, and the currently active developement line
         # Thus, add an explicit grep on the specified FEATURE_VERSION so as to appropriately
         # set the correct build number later on.
         firstMatchingNameFromRepo=$(git describe --tags $revList | grep "jdk-${BUILD_CONFIG[OPENJDK_FEATURE_NUMBER]}" | grep -v openj9 | grep -v _adopt | grep -v "\-ga" | head -1)
-	echo "4444"
+	echo "4444:$firstMatchingNameFromRepo:"
       else
         firstMatchingNameFromRepo=$(git describe --tags $revList | grep jdk | grep -v openj9 | grep -v _adopt | grep -v "\-ga" | head -1)
       fi
       # this may not find the correct tag if there are multiples on the commit so find commit
       # that contains this tag and then use `git tag` to find the real tag
       revList=$(git rev-list -n 1 $firstMatchingNameFromRepo --)
-      echo "5555"
+      echo "5555:$revList:"
       firstMatchingNameFromRepo=$(git tag --points-at $revList | grep -v "\-ga" | tail -1)
-      echo "6666"
+      echo "6666:$firstMatchingNameFromRepo:"
     fi
 
     if [ -z "$firstMatchingNameFromRepo" ]; then
