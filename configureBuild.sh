@@ -113,7 +113,7 @@ setVariablesForConfigure() {
   local openjdk_core_version=${BUILD_CONFIG[OPENJDK_CORE_VERSION]}
   # test-image and debug-image targets are optional - build scripts check whether the directories exist
   local openjdk_test_image_path="test"
-  local openjdk_debug_image_path="debug-image"
+  local openjdk_debug_image_path="symbols"
 
   if [ "$openjdk_core_version" == "${JDK8_CORE_VERSION}" ]; then
     local jdk_path="j2sdk-image"
