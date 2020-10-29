@@ -25,7 +25,7 @@ node ("master") {
   stage("checkLabels") {
       labels.each { label ->
           if (!NodeHelper.nodeIsOnline(label)) {
-              slackSend channel: slackChannel, color: 'danger', message: 'Node set OFFLINE: '+label
+              slackSend(channel: '@leonarda', color: 'danger', message: 'Node set OFFLINE: '+label)
           }
       }
   }
