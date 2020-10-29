@@ -16,16 +16,17 @@ import groovy.json.JsonSlurper
 
 node ("master") {
 
-  def slackChannel = "#andrew-node-monitor"
-
-  def labels = ["build&&linux&&s390xxxx"]
+  def slackChannel = params.CHANNEL
+  def labels = params.LABELS
 
   def NodeHelper = library(identifier: 'openjdk-jenkins-helper@master').NodeHelper
 
   stage("checkLabels") {
-      labels.each { label ->
+
+      def label_list = labels.split("\n") 
+      label_list.each { label ->
           if (!NodeHelper.nodeIsOnline(label)) {
-              slackSend(channel: slackChannel, color: 'danger', message: 'Node set OFFLINE: '+label)
+              slackSend(channel: slackChannel, color: 'danger', message: 'WARNING: Node set offline: '+label)
           }
       }
   }
