@@ -20,15 +20,11 @@ node ("master") {
 
   def labels = ["build&&linux&&s390xxxx"]
 
+  def NodeHelper = library(identifier: 'openjdk-jenkins-helper@master').NodeHelper
+
   stage("checkLabels") {
       labels.each { label ->
-          boolean isOnline = Jenkins.getInstance().getLabel(label).nodes
-                             .findAll {it instanceof hudson.model.Slave }
-                             .collect {it.getComputer() }
-                             .findAll {it.isOnline() }
-                             .size() > 0
-   
-          if (!isOneline) {
+          if (!NodeHelper.nodeIsOnline(label)) {
               slackSend channel: "${slackChannel}", color: "danger", message: "Node set OFFLINE: ${label}"
           }
       }
