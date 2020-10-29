@@ -16,7 +16,7 @@ import groovy.json.JsonSlurper
 
 node ("master") {
 
-  def slackChannel = "@Andrew Leonard"
+  def slackChannel = "#andrew-node-monitor"
 
   def labels = ["build&&linux&&s390xxxx"]
 
@@ -25,7 +25,7 @@ node ("master") {
   stage("checkLabels") {
       labels.each { label ->
           if (!NodeHelper.nodeIsOnline(label)) {
-              slackSend(channel: '@leonarda', color: 'danger', message: 'Node set OFFLINE: '+label)
+              slackSend(channel: slackChannel, color: 'danger', message: 'Node set OFFLINE: '+label)
           }
       }
   }
