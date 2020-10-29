@@ -16,7 +16,7 @@ import groovy.json.JsonSlurper
 
 node ("master") {
 
-  def slackChannel = "@leonarda"
+  def slackChannel = "@Andrew Leonard"
 
   def labels = ["build&&linux&&s390xxxx"]
 
