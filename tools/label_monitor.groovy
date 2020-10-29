@@ -16,8 +16,8 @@ import groovy.json.JsonSlurper
 
 node ("master") {
 
-  def slackChannel = params.CHANNEL
-  def labels = params.LABELS
+  def slackChannel = params.SLACK_CHANNEL
+  def labels = params.NODE_SETS
 
   def NodeHelper = library(identifier: 'openjdk-jenkins-helper@master').NodeHelper
 
