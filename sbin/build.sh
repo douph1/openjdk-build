@@ -571,6 +571,12 @@ getJdkArchivePath() {
   # echo "jdk-${version}"
 
   local version=$(getOpenJdkVersion)
+
+  # Workaround for jdk-11.0.9.1+1 OpenJDK "patch" to jdk-11.0.9+11, by mapping it to an Adopt re-build of jdk-11.0.9+11
+  if [ "$version" == "jdk-11.0.9.1+1" ]; then
+    version="jdk-11.0.9+11"
+  fi  
+
   echo "$version"
 }
 
